@@ -38,6 +38,6 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ## 사용법
 **1. Task 개수 지정**  
 **2. Task Type 개수를 입력(device 종류가 몇 개인지, 개수는 최소 3개 이상)**  
-**3. 5종류의 device 중 작업을 진행할 device 선택, 한 줄에 선택지를 2에서 선택한 만큼 입력한다.**  
-**4. 출력을  assigning, processing 파악**  
-**5. DMAcontroller가 모든 processing task를 memory buffer에 할당한 경우 출력을 통해 확인**  
+**3. 출력을 통해 assigning, processing 과정 파악**  
+**4. DMAcontroller가 모든 processing task를 memory buffer에 할당하는 과정을 출력을 통해 확인**  
+**5. Buffer 할당이 끝날 시 인터럽트 확인**
