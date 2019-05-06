@@ -49,7 +49,7 @@ void IDEcontroller::assign(int tasksize)
 	}
 }
 
-void IDEcontroller::processing(queue<pair<string, int>> *memorybuffer, int tasksize)
+void IDEcontroller::processing(queue<pair<string,int>> *DMAcon, int tasksize)
 {
 	unique_lock<mutex> ul(mtx);
 	cv.notify_one();
@@ -82,8 +82,8 @@ void IDEcontroller::processing(queue<pair<string, int>> *memorybuffer, int tasks
 		temp.first = device;
 		temp.second = controller.front();
 		controller.pop();
-		// 여기서 DMA컨트롤러로 processing 된 작업을 pass 
-		//memorybuffer->push(temp);
+		//여기서 DMA컨트롤러로 processing 된 작업을 pass 
+		DMAcon->push(temp);
 		cv.wait(ul);
 		cv.notify_all();
 	}

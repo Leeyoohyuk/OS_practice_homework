@@ -20,5 +20,5 @@ public:
 	IDEcontroller(); // 积己磊
 	void setdevice(string device); // device 技泼
 	void assign(int tasksize); // task且寸
-	void processing(queue<pair<string, int>> *memorybuffer, int tasksize); // task贸府
+	void processing(queue<pair<string, int>> *DMAcon, int tasksize); // task贸府
 };

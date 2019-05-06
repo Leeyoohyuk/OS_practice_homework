@@ -121,7 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DMA.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="IDEcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
