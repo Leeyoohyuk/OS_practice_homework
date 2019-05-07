@@ -38,11 +38,11 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ## 상세 진행 및 사용법
 **1. 시작 시 Task갯수(500개 이상)와 _Device type_ 의 수(3개 이상)를 입력받음**  
 
-**2. _Device type_ 별로 _IDEcontroller_(이하 _IDEcon_)가 할당 ex) _device_ 3개면 3개의 _IDEcon_ 생성)**  
+**2. _Device type_ 별로 _IDEcontroller_(이하 _IDEcon_)가 세팅 ex) device가 3개면 3개의 _IDEcon_ 생성-세팅)**  
 
-**3. _IDEcon_ 개수 2배의 스레드가 생성되고 각각 할당, 처리작업 진행**  
+**3. _IDEcon_ 개수 2배의 스레드가 생성되고 각각 _assigning, processing_ 작업 진행**  
 
-**4. 각 스레드들이 할당, 처리 병행 ex) _IDEcon_ 이 3개이면 할당스레드 3개, 처리스레드 3개**  
+**4. 각 스레드들이 할당, 처리 병행 ex) _IDEcon_ 이 3개면 -> 할당 3개, 처리 3개 = 총 6개**  
 
 **- _Processing thread_ 는 한 번에 하나의 처리만 하고 다른 스레드에게 _critical section_ 양보**  
 
@@ -52,7 +52,7 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 
 **- 여기까지 진행 후 출력 확인을 위한 5초 간 Sleep이 존재**  
 
-**6. _DMA transfer_ 는 각 _IDEcon_ 에서의 processing이 누적된 순서로 _memory buffer_ 에 진행**  
+**6. _DMA transfer_ 는 각 _IDEcon_ 으로부터 processing이 누적된 순서로 _memory buffer_ 에 진행**  
 
 **7. 모든 작업 완료 시 Output**
 

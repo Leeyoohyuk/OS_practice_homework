@@ -20,7 +20,7 @@ int main()
 int size()
 {
 	int tasksize = 0;
-	cout << "Please enter the number of tasks you want to task : ";
+	cout << " Please enter the number of tasks you want to task : ";
 	cin >> tasksize;
 	while (tasksize < 500) // 500 미만의 type을 입력시 재입력 받도록 함
 	{
