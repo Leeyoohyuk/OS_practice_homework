@@ -25,7 +25,7 @@ void IDEcontroller::assign(int tasksize)
 {
 	unique_lock<mutex> ul(mtx); // mutex 보장
 	cv.notify_one(); // 임계영역에 들어오면 wait 상태인 스레드를 깨운다 -> 이 스레드가 wait가 될 경우 다른 스레드가 작업 진행할 수 있도록
-	double start = ((double) clock())/CLOCKS_PER_SEC; // Round-Robin 방식을 위한 시간 측정 - (Quantum 시작)
+	double start = ((double)clock()) / CLOCKS_PER_SEC; // Round-Robin 방식을 위한 시간 측정 - (Quantum 시작)
 	while (1)
 	{
 		if (tasksize == total_preprocess)
@@ -50,7 +50,7 @@ void IDEcontroller::assign(int tasksize)
 	}
 }
 
-void IDEcontroller::processing(queue<pair<string,int>> *DMAcon, int tasksize)
+void IDEcontroller::processing(queue<pair<string, int>> *DMAcon, int tasksize)
 {
 	unique_lock<mutex> ul(mtx); // mutex 보장
 	cv.notify_one(); // 임계영역에 들어오면 wait 상태인 스레드를 깨운다 -> 이 스레드가 wait가 될 경우 다른 스레드가 작업 진행할 수 있도록
@@ -78,12 +78,12 @@ void IDEcontroller::processing(queue<pair<string,int>> *DMAcon, int tasksize)
 			break;
 		}
 		cout << " Process : " << device << 'x' << controller.front() << " in progress. \n";
-		total_postprocess++; 
+		total_postprocess++;
 		pair<string, int> temp;
 		temp.first = device;
 		temp.second = controller.front();
-		controller.pop(); 
-		DMAcon->push(temp); 
+		controller.pop();
+		DMAcon->push(temp);
 		// 1. DMA 컨트롤러로 processing 된 작업을 전달 2. 프로세싱된 작업의 수 증가 3. 컨트롤러에서 작업 제거
 		cv.wait(ul); // 한 번에 하나의 process만 처리해야하기 때문에 한 번의 processing 진행되면 다른 스레드가 작업
 		cv.notify_all(); // 작업 재게시 wait 스레드를 깨운다

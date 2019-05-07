@@ -48,7 +48,7 @@ void task_processing()
 	int num_of_device = type(); // type의 개수
 
 	IDEcontroller *idecon = new IDEcontroller[num_of_device]; // IDEcontroller 객체 동적할당
-	thread *ide = new thread[num_of_device*2]; // 사용할 devcie 개수 * 2 만큼의 스레드 할당 -> 할당과 처리의 분리
+	thread *ide = new thread[num_of_device * 2]; // 사용할 devcie 개수 * 2 만큼의 스레드 할당 -> 할당과 처리의 분리
 	queue<pair<string, int>> *DMAcontroller = new queue<pair<string, int>>;
 	for (int i = 0; i < num_of_device; i++)
 	{
@@ -60,10 +60,10 @@ void task_processing()
 		idecon[i].setdevice(device[randnum]);
 	} // IDEcontroller에 랜덤으로 device 설정
 
-	for(int i = 0; i<num_of_device; i++)
+	for (int i = 0; i < num_of_device; i++)
 	{
-		ide[i] = thread(&IDEcontroller::assign, &idecon[i], task_size); 
-		ide[i+num_of_device] = thread(&IDEcontroller::processing, &idecon[i], DMAcontroller, task_size);
+		ide[i] = thread(&IDEcontroller::assign, &idecon[i], task_size);
+		ide[i + num_of_device] = thread(&IDEcontroller::processing, &idecon[i], DMAcontroller, task_size);
 	} // 멀티스레딩을 이용하여 assign - processing 작업 시작
 	for (int i = 0; i < num_of_device * 2; i++)
 	{
