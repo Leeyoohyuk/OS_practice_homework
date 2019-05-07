@@ -1,4 +1,4 @@
-# OS_practice_homework
+﻿# OS_practice_homework
 
 ## HW-1. Buffer-cache 프로그램 진행
 
@@ -26,7 +26,7 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ### 알고리즘 실행 시 사용자가 100을 입력하기 전까지 시나리오를 테스트하며 및 반복
 ---
 
-## HW-2. DMA transfer 프로그램 진행
+## HW-2. DMA transfer 프로그램 개요
 
 1. Input으로 Task 개수를 입력, 이때 Task의 종류는 무작위로 할당.
 2. 입력받은 Task를 IDE Controller에 할당.
@@ -35,9 +35,25 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 5. 모든 IDE Controller의 Task가 종료되면 Output으로 알림.
 
 ---
-## 사용법
-**1. Task 개수 지정**  
-**2. Task Type 개수를 입력(device 종류가 몇 개인지, 개수는 최소 3개 이상)**  
-**3. 출력을 통해 assigning, processing 과정 파악**  
-**4. DMAcontroller가 모든 processing task를 memory buffer에 할당하는 과정을 출력을 통해 확인**  
-**5. Buffer 할당이 끝날 시 인터럽트 확인**
+## 상세 진행 및 사용법
+**1. 시작 시 Task갯수(500개 이상)와 _Device type_ 의 수(3개 이상)를 입력받음**  
+
+**2. _Device type_ 별로 _IDEcontroller_(이하 _IDEcon_)가 할당 ex) _device_ 3개면 3개의 _IDEcon_ 생성)**  
+
+**3. _IDEcon_ 개수 2배의 스레드가 생성되고 각각 할당, 처리작업 진행**  
+
+**4. 각 스레드들이 할당, 처리 병행 ex) _IDEcon_ 이 3개이면 할당스레드 3개, 처리스레드 3개**  
+
+**- _Processing thread_ 는 한 번에 하나의 처리만 하고 다른 스레드에게 _critical section_ 양보**  
+
+**- _Processing_ 되는 task는 곧바로 _DMAcontroller_ 에 push 함**  
+
+**5. 모든 _assigning, processing_ 완료 -> 모든 작업 처리 완료 출력 및 _DMAcon transfer_ 시작 알림**  
+
+**- 여기까지 진행 후 출력 확인을 위한 5초 간 Sleep이 존재**  
+
+**6. _DMA transfer_ 는 각 _IDEcon_ 에서의 processing이 누적된 순서로 _memory buffer_ 에 진행**  
+
+**7. 모든 작업 완료 시 Output**
+
+---

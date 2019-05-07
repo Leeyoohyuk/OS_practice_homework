@@ -22,6 +22,11 @@ int size()
 	int tasksize = 0;
 	cout << "Please enter the number of tasks you want to task : ";
 	cin >> tasksize;
+	while (tasksize < 500) // 500 미만의 type을 입력시 재입력 받도록 함
+	{
+		cout << " Please enter at least 500 tasks : ";
+		cin >> tasksize;
+	}
 	return tasksize;
 }
 
@@ -30,12 +35,11 @@ int type()
 	int num_of_device = 0;
 	cout << " Please enter the number of type you want to task (at least 3type) : ";
 	cin >> num_of_device;
-	while (num_of_device < 3) // 3 이하의 type을 입력시 재입력 받도록 함
+	while (num_of_device < 3) // 3 미만의 type을 입력시 재입력 받도록 함
 	{
 		cout << " Please enter a number of more than three : ";
 		cin >> num_of_device;
 	}
-
 	return num_of_device;
 }
 
@@ -79,8 +83,9 @@ void task_processing()
 		DMAcontroller->pop(); // 메모리 버퍼에 전달
 	}
 	cout << endl;
-	cout << " DMAcontroller finished task transmission to memorybuffer";
+	cout << " DMAcontroller finished task transmission to memorybuffer\n\n";
 	// DMAcontroller 작업 종료 시 알림
 
+	system("pause");
 	return;
 }
