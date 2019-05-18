@@ -12,6 +12,7 @@ struct process {
 };
 
 vector<int> instance;
+vector<int> available;
 vector<process> user_proc;
 
 int instance_define();
@@ -38,6 +39,7 @@ int instance_define()
 	{
 		cin >> resource;
 		instance.push_back(resource);
+		available.push_back(resource);
 	}
 	return instance_size;
 }
@@ -63,6 +65,7 @@ void proc_setting(int size)
 			temp.max.push_back(max);
 			temp.alloc.push_back(alloc);
 			temp.need.push_back(max - alloc);
+			available[j] -= alloc;
 		}
 		user_proc.push_back(temp);
 	}
@@ -71,8 +74,27 @@ void proc_setting(int size)
 
 void request()
 {
-	cout << "Input Request instance " << instance.size();
-	// 요청 돌리고 프로세스 돌아가면서 확인
+	vector<int> req_resource;
+	cout << "Input Request instance : ";
+	for (int i = 0; i < instance.size(); i++) {
+		int resource;
+		cin >> resource;
+		req_resource.push_back(resource);
+	}
+	for (int i = 0; i < user_proc.size(); i++)
+	{
+		bool check = true;
+		for (int j = 0; j < instance.size(); j++)
+		{
+			if (user_proc[i].need[j] > req_resource[j])
+				check = false; // 프로세스 Need를 초과하는 resource를 요구한 경우 해당 프로세스는 수행X
+		}
+		if (check) // Need에 가능한 프로세스가 있다면?
+		{
+			// alloc 갖고 한번 더 검증
+		}
+	}
+
 	// 되는거 있으면 safety 검사
 	// 되면 출력 안되면 안하고 다음 프로세스 검사
 	// 끝까지 돌고없으면 안되는거
