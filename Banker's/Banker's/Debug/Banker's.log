@@ -1,15 +1,23 @@
 ﻿  main.cpp
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(47): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(51): warning C4101: 'alloc' :참조되지 않은 지역 변수입니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(51): warning C4101: 'max' :참조되지 않은 지역 변수입니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(51): warning C4101: 'need' :참조되지 않은 지역 변수입니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(55): warning C4101: 'maxtemp' :참조되지 않은 지역 변수입니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(80): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(84): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(89): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(94): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(100): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(105): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(48): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(52): warning C4101: 'alloc' :참조되지 않은 지역 변수입니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(52): warning C4101: 'max' :참조되지 않은 지역 변수입니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(52): warning C4101: 'need' :참조되지 않은 지역 변수입니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(56): warning C4101: 'maxtemp' :참조되지 않은 지역 변수입니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(77): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(82): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(87): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(92): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(99): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
 c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(111): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(116): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(125): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(129): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(134): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(139): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(145): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(150): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(156): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(161): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(168): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\azsxd\desktop\os_practice_homework\banker's\banker's\main.cpp(173): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   Banker's.vcxproj -> C:\Users\azsxd\Desktop\OS_practice_homework\Banker's\Debug\Banker's.exe

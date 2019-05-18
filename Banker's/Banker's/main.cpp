@@ -18,14 +18,13 @@ vector<process> user_proc;
 int instance_define();
 void proc_setting(int size);
 void display_status();
-void request();
-bool safety();
+void safety();
 
 int main()
 {
 	proc_setting(instance_define());
 	display_status();
-	request();
+	safety();
 	return 0;
 }
 
@@ -57,10 +56,10 @@ void proc_setting(int size)
 		int maxtemp; // 프로세스들에 할당된 resource가 최대 instance resource 를 넘지 않도록 함
 		for (int j = 0; j < size; j++)
 		{
-			int max = rand() % (instance[j] - instance[j]/2 + 1);
+			int max = rand() % ((instance[j] / 4)*3 + 1);
 			int alloc;
 			do {
-				alloc = rand() % (instance[j] / proc_size);
+				alloc = rand() % ((instance[j] / proc_size) + 1);
 			} while (alloc > max);
 			temp.max.push_back(max);
 			temp.alloc.push_back(alloc);
@@ -69,35 +68,55 @@ void proc_setting(int size)
 		}
 		user_proc.push_back(temp);
 	}
-	//30 20 10 15 5
 }
 
-void request()
+void safety()
 {
-	vector<int> req_resource;
-	cout << "Input Request instance : ";
-	for (int i = 0; i < instance.size(); i++) {
-		int resource;
-		cin >> resource;
-		req_resource.push_back(resource);
+	vector<int> proc_course;
+	int *Work = new int[instance.size()];
+	for (int i = 0; i < instance.size(); i++)
+	{
+		Work[i] = available[i];
 	}
+	bool *Finish = new bool[user_proc.size()];
+	for (int i = 0; i < user_proc.size(); i++)
+	{
+		Finish[i] = false;
+	}
+	cout << endl;
 	for (int i = 0; i < user_proc.size(); i++)
 	{
 		bool check = true;
-		for (int j = 0; j < instance.size(); j++)
+		if (!Finish[i])
 		{
-			if (user_proc[i].need[j] > req_resource[j])
-				check = false; // 프로세스 Need를 초과하는 resource를 요구한 경우 해당 프로세스는 수행X
+			for (int j = 0; j < instance.size(); j++)
+			{
+				if (user_proc[i].need[j] > Work[j])
+					check = false; // 프로세스 Need가 보유분을 초과하면 해당 프로세스는 수행X
+			}
 		}
-		if (check) // Need에 가능한 프로세스가 있다면?
-		{
-			// alloc 갖고 한번 더 검증
+		if (check && !Finish[i]) {
+			for (int j = 0; j < instance.size(); j++)
+			{
+				Work[j] += user_proc[i].alloc[j];
+			}
+			Finish[i] = true;
+			proc_course.push_back(i+1); // 코스 추가 이후에 코스사이즈비교하여 출력 
+			i = -1; // 루프이후 가능한게 있는지 다시 검사
 		}
 	}
-
-	// 되는거 있으면 safety 검사
-	// 되면 출력 안되면 안하고 다음 프로세스 검사
-	// 끝까지 돌고없으면 안되는거
+	if (proc_course.size() == user_proc.size())
+	{
+		cout << "\nThe safety processing course is ";
+		for (int i = 0; i < proc_course.size(); i++)
+		{
+			cout << "process" << proc_course[i] << " ";
+		}
+		cout << endl;
+	}
+	else
+		cout << "\nThere isn't safety resource consuming root";
+	return;
 }
 
 void display_status()
@@ -144,5 +163,15 @@ void display_status()
 			cout << setw(8) << user_proc[i].max[j];
 		}
 		cout << endl;
+	}
+	cout << "\n    Available resource \n";
+	for (int j = 0; j < instance.size(); j++)
+	{
+		cout << setw(7) << "ins" << j + 1;
+	}
+	cout << endl;
+	for (int j = 0; j < instance.size(); j++)
+	{
+		cout << setw(8) << available[j];
 	}
 }
