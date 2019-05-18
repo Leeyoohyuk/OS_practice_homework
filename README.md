@@ -61,6 +61,7 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ## 소과제. Banker's algorithm 프로그램 설명
 
 1. Input으로 Instance 개수, 각 Instance가 갖는 resource 개수, 프로세서 할당
-2. 프로세서에 Max, need, alloc resource는 랜덤 과정을 거쳐서 조건에 맞게 할당
-3. Request 프로세스 및, Request할 자원의 양 입력
+2. 프로세서에 Max, Alloc resource를 조건에 맞게 할당 (조건에 부합하지 않을 경우 종료)
+3. 할당이 정상적으로 완료된 경우 각 instance, available, process resource 상태 출력
 4. Safety algorithm을 통해 safety or not safety 판별
+5. Safety하다고 판별될 경우 순서 출력
