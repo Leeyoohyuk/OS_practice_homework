@@ -1,6 +1,6 @@
 ﻿# OS_practice_homework
 
-## HW-1. Buffer-cache 프로그램 진행
+## PRJ-1. Buffer-cache 프로그램 진행
 
 1. Header(mod num)은 5이며, 0\~4까지의 각 헤더에 버퍼 할당  
 2. 각 헤더에 속한 버퍼는 3\~10개 랜덤, 각 아이디는 1~99 랜덤, 상태는 랜덤  
@@ -26,7 +26,7 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ### 알고리즘 실행 시 사용자가 100을 입력하기 전까지 시나리오를 테스트하며 및 반복
 ---
 
-## HW-2. DMA transfer 프로그램 개요
+## PRJ-2. DMA transfer 프로그램 개요
 
 1. Input으로 Task 개수를 입력, 이때 Task의 종류는 무작위로 할당.
 2. 입력받은 Task를 IDE Controller에 할당.
@@ -58,10 +58,18 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 
 ---
 
-## 소과제. Banker's algorithm 프로그램 설명
+## HW-1. Banker's algorithm 프로그램 설명
 
 1. Input으로 Instance 개수, 각 Instance가 갖는 resource 개수, 프로세서 할당
 2. 프로세서에 Max, Alloc resource를 조건에 맞게 할당 (조건에 부합하지 않을 경우 종료)
 3. 할당이 정상적으로 완료된 경우 각 instance, available, process resource 상태 출력
 4. Safety algorithm을 통해 safety or not safety 판별
 5. Safety하다고 판별될 경우 순서 출력
+
+## HW-2. Contiguous allocation 프로그램 설명
+
+1. Input으로 Memory size할당
+2. 프로세스 번호 입력 (프로세스 번호가 0일 경우 프로그램 종료)
+3. 프로세스 사이즈 입력 (사이즈가 0일 경우 이미 존재하는 프로세스에 대한 Release작업)
+4. Request와 Release 명령을 구분하여 Function call
+5. 각 상태에 맞게 Best Fit을 출력한다
