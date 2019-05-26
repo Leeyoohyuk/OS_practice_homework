@@ -9,121 +9,146 @@ struct usable {
 	int size;
 };
 
-vector<usable> u_memory;
-void request(int temp[], int pid, int psize);
-void release(int temp[], int pid);
+struct process {
+	int pid;
+	int address;
+	int size;
+};
+
+vector<usable> u_memory; // 사용 가능한 메모리 주소와 크기 정보
+vector<process> allocated; // 사용 중인 메모리의 주소와 크기 정보
+void request(int msize, int pid, int psize);
+void release(int msize, int pid);
+void compaction(int msize);
 
 int main()
 {
 	int memory_size;
 	cout << "전체 메모리 사이즈 입력 : ";
 	cin >> memory_size;
-	int *memory_pool = new int[memory_size];
-	fill(memory_pool, memory_pool + memory_size, 0);
 
-	while(1)
+	while (1)
 	{
 		int pid, size;
-		cout << "프로세스 Number (0 입력시 종료) : ";
+		cout << "할당 할 프로세스 Number (0 입력시 종료) : ";
 		cin >> pid;
 		if (pid == 0)
 		{
 			break;
 		}
-		cout << "프로세스 Memory (0 이면 Release) : ";
+		cout << "할당 할 프로세스 Memory (0 이면 Release) : ";
 		cin >> size;
 		if (size != 0)
-			request(memory_pool, pid, size);
+			request(memory_size, pid, size);
 		else
-			release(memory_pool, pid);
+			release(memory_size, pid);
 		cout << endl;
 	}
 	return 0;
 }
 
-void request(int temp[], int pid , int psize)
+void request(int msize, int pid, int psize)
 {
 	cout << "REQUEST " << pid << ": " << psize << "K" << endl;
-	int size = _msize(temp) / 4;
-	int min = size;
-	int adr_temp = 0;
+	int min = msize; // 적절한 allocation 위치를 찾기 위한 변수
+	int adr_temp = 0;  // 적합하다고 생각되는 address
+	int total_usable = 0; // 사용 가능한 총공간 compaction 작업 판단에 사용
 	for (int i = 0; i < u_memory.size(); i++)
 	{
+		total_usable += u_memory[i].size;
 		if (u_memory[i].size >= psize && u_memory[i].size < min)
-		{
+		{ // min값을 갱신하며 psize보다는 크거나 같은 위치를 찾는다
 			min = u_memory[i].size;
 			adr_temp = u_memory[i].address;
 		}
-	} // 적합한 위치 탐색
-	for (int i = adr_temp; i < adr_temp + psize; i++)
+	}
+	if (min == msize && total_usable > psize) // 메모리 공간은 있으나 적합한 위치가 없으면 compaction 시행
 	{
-		temp[i] = pid;
-	} // 범위에 해당하는 공간들에 프로세스 id 대입
+		compaction(msize); // sliding compaction 시행
+		adr_temp = u_memory[0].address;
+	}
+	if (msize < psize || (u_memory.size() != 0 && total_usable < psize))
+	{
+		cout << "REQUEST IMPOSSIBLE !!";
+		return;
+	}
 
-	int u_size = 0;
-	int u_adr = 0;
-	int total_usable = 0;
-	u_memory.clear();
-	for (int i = 0; i < size; i++)
+	process ptemp;
+	ptemp.address = adr_temp;
+	ptemp.pid = pid;
+	ptemp.size = psize;
+	vector<process>::iterator it;
+	it = allocated.begin();
+	if (allocated.size() == 0)
+		allocated.push_back(ptemp);
+	for (int i = 0; i < allocated.size(); i++)
 	{
-		if (i == size - 1 && u_size != 0)
+		if (allocated[i].address + allocated[i].size == ptemp.address)
+			allocated.insert(it + i + 1, ptemp);
+	}
+
+	u_memory.clear();
+	int before_end = 0;
+	total_usable = 0;
+	for (int i = 0; i < allocated.size(); i++)
+	{
+		usable utemp;
+		utemp.address = before_end;
+		utemp.size = allocated[i].address - utemp.address;
+		before_end = allocated[i].address + allocated[i].size; // 64
+		if (utemp.size != 0)
 		{
-			total_usable++;
-			u_size++;
-			usable temp;
-			temp.size = u_size;
-			temp.address = u_adr;
-			u_memory.push_back(temp);
+			u_memory.push_back(utemp);
+			total_usable += utemp.size;
 		}
-		else if (temp[i] == 0)
+		if (i + 1 == allocated.size())
 		{
-			total_usable++;
-			u_size++;
-			if (u_size == 1)
-				u_adr = i;
+			usable utemp;
+			utemp.address = before_end;
+			utemp.size = msize - utemp.address;
+			if (utemp.size != 0)
+			{
+				u_memory.push_back(utemp);
+				total_usable += utemp.size;
+			}
 		}
-		else if (temp[i] != 0 && u_size != 0)
-		{
-			usable temp;
-			temp.size = u_size;
-			temp.address = u_adr;
-			u_memory.push_back(temp);
-			u_size = 0;
-		}
-	} // 사용 가능한 블럭 조사
+	} // 사용 가능한 공간 조사
 
 	cout << "Best Fit: Allocated at address " << adr_temp << endl;
-	cout << total_usable << "K free, " << u_memory.size() << " block(s), average size = " << total_usable/u_memory.size() << "K" << endl;
+	cout << total_usable << "K free, " << u_memory.size() << " block(s), average size = ";
+	if (total_usable == 0)
+		cout << total_usable << "K" << endl;
+	else
+		cout << total_usable / u_memory.size() << "K" << endl;
 }
 
-void release(int temp[], int pid)
+void release(int msize, int pid)
 {
-	int size = _msize(temp) / 4;
-	int psize = 0;
+	bool check = false; // Release 작업이 진행되는지 체크
+	int psize = 0; // 해제 요청을 받은 프로세스가 점유하는 메모리 크기
 	int start = 0, end = 0;
-	for (int i = 0; i < size; i++)
+
+	for (int i = 0; i < allocated.size(); i++)
 	{
-		if (temp[i] == pid)
+		if (allocated[i].pid == pid)
 		{
-			temp[i] = 0;
-			psize++;
-			if (psize == 1)
-				start = i;
-		}
-		else if (temp[i] != pid && psize != 0)
-		{
-			end = i-1;
+			start = allocated[i].address;
+			psize = allocated[i].size;
+			end = start + psize - 1;
+			allocated.erase(allocated.begin() + i);
+			check = true;
 			break;
 		}
-	} // 메모리를 해제해주며 존재하던 프로세스의 시작위치, 끝위치를 기록한다.
-	// start가 0이면 맨 처음 블럭을 release한 것
-	// end가 0이면 맨 끝 블럭을 release한 것
-	
+	}
+	if (!check)
+	{
+		cout << "존재하지 않는 Process에 대한 Release 요청입니다.\n";
+		return;
+	}
 	cout << "FREE REQUEST " << pid << ": " << psize << "K" << endl;
 	cout << "Best Fit: Freed at address " << start << endl;
-	int orgstart = start; // 이전 프로세스 블럭 시작과 끝 기억
-	int orgend = end;
 
+	int orgstart = start; // 이전 프로세스 블럭 시작과 끝 기억
 	if (start != 0)
 	{
 		for (int i = 0; i < u_memory.size(); i++)
@@ -141,42 +166,60 @@ void release(int temp[], int pid)
 		{
 			if (u_memory[i].address == end + 1)
 			{
-				end = u_memory[i].address + u_memory[i].size;
-				cout << "Coalescing blocks at addresses " << orgend + 1 << "K and " << end << "K" << endl;
+				cout << "Coalescing blocks at addresses " << start << "K and " << end + 1 << "K" << endl;
 			}
 		}
 	}
-	
-	int u_size = 0;
-	int u_adr = 0;
-	int total_usable = 0;
+
 	u_memory.clear();
-	for (int i = 0; i < size; i++)
+	int before_end = 0;
+	int total_usable = 0;
+	for (int i = 0; i < allocated.size(); i++)
 	{
-		if (i == size - 1 && u_size != 0)
+		usable utemp;
+		utemp.address = before_end;
+		utemp.size = allocated[i].address - utemp.address;
+		before_end = allocated[i].address + allocated[i].size;
+		if (utemp.size != 0)
 		{
-			total_usable++;
-			u_size++;
-			usable temp;
-			temp.size = u_size;
-			temp.address = u_adr;
-			u_memory.push_back(temp);
+			u_memory.push_back(utemp);
+			total_usable += utemp.size;
 		}
-		else if (temp[i] == 0)
+		if (i + 1 == allocated.size())
 		{
-			total_usable++;
-			u_size++;
-			if (u_size == 1)
-				u_adr = i;
-		}
-		else if (temp[i] != 0 && u_size != 0)
-		{
-			usable temp;
-			temp.size = u_size;
-			temp.address = u_adr;
-			u_memory.push_back(temp);
-			u_size = 0;
+			usable utemp;
+			utemp.address = before_end;
+			utemp.size = msize - utemp.address;
+			if (utemp.size != 0)
+			{
+				u_memory.push_back(utemp);
+				total_usable += utemp.size;
+			}
 		}
 	} // 사용 가능한 블럭 조사
-	cout << total_usable << "K free, " << u_memory.size() << " block(s), average size = " << total_usable / u_memory.size() << "K" << endl;
+	cout << total_usable << "K free, " << u_memory.size() << " block(s), average size = ";
+	if (total_usable == 0)
+		cout << total_usable << "K" << endl;
+	else
+		cout << total_usable / u_memory.size() << "K" << endl;
+}
+
+void compaction(int msize) // compaction 작업
+{
+	cout << "Compaction Start\n";
+	int before_end = 0;
+	for (int i = 0; i < allocated.size(); i++)
+	{
+		if (allocated[i].address != before_end)
+		{
+			cout << "Block at address " << allocated[i].address << " allocated at " << before_end << endl;
+			allocated[i].address = before_end;
+		}
+		before_end = allocated[i].address + allocated[i].size;
+	}
+	u_memory.clear();
+	usable utemp;
+	utemp.address = before_end;
+	utemp.size = msize - utemp.address;
+	u_memory.push_back(utemp);
 }
