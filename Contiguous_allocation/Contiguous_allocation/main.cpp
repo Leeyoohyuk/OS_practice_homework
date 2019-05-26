@@ -72,7 +72,7 @@ void request(int msize, int pid, int psize)
 		}
 	}
 
-	if (min == msize && total_usable > psize) // 충분한 메모리 공간이 있으나 프로세스 할당이 불가능하면 compaction 시행
+	if (min == msize && total_usable >= psize) // 충분한 메모리 공간이 있으나 프로세스 할당이 불가능하면 compaction 시행
 	{
 		compaction(msize); // sliding compaction
 		adr_temp = u_memory[0].address;

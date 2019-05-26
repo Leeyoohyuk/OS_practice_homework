@@ -69,7 +69,14 @@ Scenario5 : 해시 큐에 존재하며 프리리스트가 있지만 상태가 bu
 ## HW-2. Contiguous allocation 프로그램 설명
 
 1. Input으로 Memory size할당
-2. 프로세스 번호 입력 (프로세스 번호가 0일 경우 프로그램 종료)
-3. 프로세스 사이즈 입력 (사이즈가 0일 경우 이미 존재하는 프로세스에 대한 Release작업)
+2. 프로세스 번호 입력 (프로세스 번호가 0일 경우 프로그램 종료, 이미 존재하는 프로세스 Request 불가)
+3. 프로세스 사이즈 입력 (0이 입력될 경우 해당 프로세스에 대한 Release작업)
 4. Request와 Release 명령을 구분하여 Function call
 5. 각 상태에 맞게 Best Fit을 출력한다
+
+### 상세 설명
+
+1. Bestfit 처리 기준은 사용 가능한 메모리 중, 요구 size보다 크거나 같은것 block중 최소가 되는 것으로 한다.
+2. Coalescing은 삭제되는 메모리 앞쪽 뒤쪽에 대해 진행, usable이 양쪽 다 존재할 경우 앞 block 병합 이후 뒤 block 병합
+3. Compaction은 총 usable한 memory가 요구 사이즈 이상으로 있으나 각 블럭 size가 모두 요구 size에 부합하지 않을경우 진행
+4. Compaction algorithm은 sliding 기법 사용 - 존재하는 process들을 순서대로 모두 address 0 방향으로 밀어넣는다
